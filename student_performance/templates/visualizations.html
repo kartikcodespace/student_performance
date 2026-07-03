@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}EduPredict — Visualizations{% endblock %}
+
+{% block content %}
+<section class="viz-section">
+  <div class="container">
+
+    <div class="page-header text-center mb-5">
+      <div class="section-label mb-2">Data Insights</div>
+      <h1 class="page-title">Performance Visualizations</h1>
+      <p class="page-sub">
+        Charts generated from the student dataset — explore how habits relate to marks.
+      </p>
+    </div>
+
+    <div class="row g-5">
+
+      <!-- Chart 1 -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <i class="bi bi-clock-fill me-2" style="color:#4f46e5;"></i>
+            Study Hours vs Final Marks
+          </div>
+          <div class="chart-card-body">
+            <img src="{{ url_for('static', filename='images/study_vs_marks.png') }}"
+                 class="chart-img" alt="Study Hours vs Final Marks"
+                 onerror="this.parentElement.innerHTML='<div class=chart-placeholder><i class=bi bi-image></i><p>Run train_model.py to generate this chart</p></div>'" />
+          </div>
+          <div class="chart-card-footer">
+            More daily study hours strongly correlate with higher final marks.
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 2 -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <i class="bi bi-calendar-check-fill me-2" style="color:#10b981;"></i>
+            Attendance % vs Final Marks
+          </div>
+          <div class="chart-card-body">
+            <img src="{{ url_for('static', filename='images/attendance_vs_marks.png') }}"
+                 class="chart-img" alt="Attendance vs Marks"
+                 onerror="this.parentElement.innerHTML='<div class=chart-placeholder><i class=bi bi-image></i><p>Run train_model.py to generate this chart</p></div>'" />
+          </div>
+          <div class="chart-card-footer">
+            Regular attendance shows a strong positive effect on performance.
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 3 (full width) -->
+      <div class="col-12">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <i class="bi bi-grid-3x3-gap-fill me-2" style="color:#8b5cf6;"></i>
+            Feature Correlation Heatmap
+          </div>
+          <div class="chart-card-body text-center">
+            <img src="{{ url_for('static', filename='images/correlation_heatmap.png') }}"
+                 class="chart-img chart-img-wide" alt="Correlation Heatmap"
+                 onerror="this.parentElement.innerHTML='<div class=chart-placeholder><i class=bi bi-image></i><p>Run train_model.py to generate this chart</p></div>'" />
+          </div>
+          <div class="chart-card-footer">
+            Darker red = strong positive correlation. Darker blue = strong negative. 
+            <strong>Previous marks</strong> and <strong>study hours</strong> are the strongest predictors.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ url_for('predict_form') }}" class="btn btn-primary-custom btn-lg">
+        <i class="bi bi-lightning-fill me-2"></i>Predict My Marks
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

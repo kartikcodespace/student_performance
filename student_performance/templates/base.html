@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Student Performance Predictor{% endblock %}</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('home') }}">
+      <span class="brand-icon"><i class="bi bi-mortarboard-fill"></i></span>
+      <span>EduPredict<span class="brand-dot">.</span></span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
+             href="{{ url_for('home') }}"><i class="bi bi-house-door me-1"></i>Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'predict_form' %}active{% endif %}"
+             href="{{ url_for('predict_form') }}"><i class="bi bi-graph-up me-1"></i>Predict</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'visualizations' %}active{% endif %}"
+             href="{{ url_for('visualizations') }}"><i class="bi bi-bar-chart-fill me-1"></i>Charts</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────── -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container text-center">
+    <p class="mb-0">
+      <span class="footer-logo"><i class="bi bi-mortarboard-fill me-1"></i>EduPredict</span>
+      &nbsp;·&nbsp; AI/ML Mini Project &nbsp;·&nbsp; Built with Flask &amp; scikit-learn
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

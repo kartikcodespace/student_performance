@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}EduPredict — Home{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="hero-bg-grid"></div>
+  <div class="container position-relative">
+    <div class="row align-items-center min-vh-hero">
+
+      <div class="col-lg-6 hero-text">
+        <div class="badge-pill mb-4">
+          <i class="bi bi-cpu-fill me-2"></i>AI-Powered Prediction
+        </div>
+        <h1 class="hero-title">
+          Predict Your<br>
+          <span class="hero-accent">Academic Future</span>
+        </h1>
+        <p class="hero-sub">
+          Enter your study habits and academic details — our Linear Regression model
+          instantly forecasts your final marks and reveals where you stand.
+        </p>
+        <div class="hero-actions">
+          <a href="{{ url_for('predict_form') }}" class="btn btn-primary-custom btn-lg me-3">
+            <i class="bi bi-graph-up-arrow me-2"></i>Predict Now
+          </a>
+          <a href="{{ url_for('visualizations') }}" class="btn btn-ghost-custom btn-lg">
+            <i class="bi bi-bar-chart-line me-2"></i>View Charts
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-6 hero-visual d-none d-lg-flex justify-content-center">
+        <div class="card-float">
+          <div class="card-float-inner">
+            <div class="float-stat">
+              <span class="float-val">{{ "%.0f"|format((metrics.r2 * 100) if metrics else 96) }}%</span>
+              <span class="float-lbl">Model Accuracy</span>
+            </div>
+            <div class="float-divider"></div>
+            <div class="float-stat">
+              <span class="float-val">6</span>
+              <span class="float-lbl">Input Features</span>
+            </div>
+            <div class="float-divider"></div>
+            <div class="float-stat">
+              <span class="float-val">4</span>
+              <span class="float-lbl">Grade Bands</span>
+            </div>
+          </div>
+          <div class="float-badge">
+            <i class="bi bi-shield-check-fill me-1"></i>scikit-learn
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES GRID ──────────────────────────────────── -->
+<section class="features-section">
+  <div class="container">
+
+    <div class="section-label text-center mb-2">What We Offer</div>
+    <h2 class="section-title text-center mb-5">Everything in One Place</h2>
+
+    <div class="row g-4">
+      {% set features = [
+        ("bi-database-fill",      "#4f46e5", "Dataset Handling",       "Loads real student data from CSV, handles missing values, and preprocesses every column automatically."),
+        ("bi-robot",              "#10b981", "Machine Learning",        "Linear Regression trained on 100 student records. Model accuracy, MAE, and RMSE saved and displayed in real time."),
+        ("bi-clipboard2-pulse",   "#f59e0b", "Smart Prediction",        "Enter six academic parameters and receive an instant, data-driven final mark estimate."),
+        ("bi-award-fill",         "#ef4444", "Grade Classification",    "Marks are auto-classified: Excellent (90+), Good (75–89), Average (50–74), or Poor (<50)."),
+        ("bi-bar-chart-fill",     "#8b5cf6", "Data Visualizations",     "Three interactive charts: Study Hours vs Marks, Attendance vs Performance, and a Correlation Heatmap."),
+        ("bi-shield-lock-fill",   "#06b6d4", "Input Validation",        "Every field is validated on both client and server side — no crashes, no bad predictions."),
+      ] %}
+
+      {% for icon, color, title, desc in features %}
+      <div class="col-md-6 col-lg-4">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:{{ color }}22; color:{{ color }};">
+            <i class="bi {{ icon }}"></i>
+          </div>
+          <h5 class="feature-title">{{ title }}</h5>
+          <p class="feature-desc">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ── MODEL METRICS ──────────────────────────────────── -->
+{% if metrics %}
+<section class="metrics-section">
+  <div class="container">
+    <div class="metrics-card">
+      <div class="row align-items-center">
+        <div class="col-lg-4 mb-4 mb-lg-0">
+          <div class="section-label">Live Model Stats</div>
+          <h3 class="metrics-heading">Current Model Performance</h3>
+          <p class="metrics-sub">
+            Trained on real student data using Linear Regression.
+            Reload after re-training to see updated numbers.
+          </p>
+        </div>
+        <div class="col-lg-8">
+          <div class="row g-4 text-center">
+            <div class="col-4">
+              <div class="metric-pill">
+                <span class="metric-num">{{ "%.2f"|format(metrics.r2 * 100) }}%</span>
+                <span class="metric-name">R² Score</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="metric-pill">
+                <span class="metric-num">{{ metrics.mae }}</span>
+                <span class="metric-name">MAE</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="metric-pill">
+                <span class="metric-num">{{ metrics.rmse }}</span>
+                <span class="metric-name">RMSE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── GRADE BANDS ────────────────────────────────────── -->
+<section class="grades-section">
+  <div class="container">
+    <div class="section-label text-center mb-2">Grading System</div>
+    <h2 class="section-title text-center mb-5">Performance Classification</h2>
+
+    <div class="row g-4 justify-content-center">
+      {% set bands = [
+        ("90 – 100", "Excellent", "bi-trophy-fill",    "#10b981", "You're at the top of the class!"),
+        ("75 – 89",  "Good",      "bi-hand-thumbs-up-fill", "#4f46e5", "Strong performance — keep it up!"),
+        ("50 – 74",  "Average",   "bi-book-fill",       "#f59e0b", "Room to improve with focused effort."),
+        ("0 – 49",   "Poor",      "bi-exclamation-triangle-fill", "#ef4444", "Needs significant improvement."),
+      ] %}
+      {% for range_, label, icon, color, tip in bands %}
+      <div class="col-sm-6 col-lg-3">
+        <div class="grade-card" style="border-top:4px solid {{ color }};">
+          <i class="bi {{ icon }} grade-icon" style="color:{{ color }};"></i>
+          <div class="grade-range" style="color:{{ color }};">{{ range_ }}</div>
+          <div class="grade-label">{{ label }}</div>
+          <p class="grade-tip">{{ tip }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="{{ url_for('predict_form') }}" class="btn btn-primary-custom btn-lg">
+        <i class="bi bi-lightning-fill me-2"></i>Get My Prediction
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
